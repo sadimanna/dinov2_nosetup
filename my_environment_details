@@ -1,0 +1,75 @@
+Collecting environment information...
+PyTorch version: 2.1.1+cu118
+Is debug build: False
+CUDA used to build PyTorch: 11.8
+ROCM used to build PyTorch: N/A
+
+OS: Microsoft Windows 10 Pro
+GCC version: Could not collect
+Clang version: Could not collect
+CMake version: Could not collect
+Libc version: N/A
+
+Python version: 3.8.5 (default, Sep  3 2020, 21:29:08) [MSC v.1916 64 bit (AMD64)] (64-bit runtime)
+Python platform: Windows-10-10.0.19041-SP0
+Is CUDA available: True
+CUDA runtime version: 12.1.66
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration: GPU 0: NVIDIA GeForce RTX 2080 Ti
+Nvidia driver version: 555.85
+cuDNN version: Could not collect
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture=9
+CurrentClockSpeed=3696
+DeviceID=CPU0
+Family=205
+L2CacheSize=1536
+L2CacheSpeed=
+Manufacturer=GenuineIntel
+MaxClockSpeed=3696
+Name=Intel(R) Core(TM) i5-9600K CPU @ 3.70GHz
+ProcessorType=3
+Revision=
+
+Versions of relevant libraries:
+[pip3] backpack-for-pytorch==1.5.0
+[pip3] gpytorch==1.9.0
+[pip3] mypy-extensions==1.0.0
+[pip3] numpy==1.23.1
+[pip3] pytorch-lightning==2.4.0
+[pip3] torch==2.1.1+cu118
+[pip3] torch-pitch-shift==1.2.4
+[pip3] torch-tb-profiler==0.4.3
+[pip3] torchaudio==2.1.1+cu118
+[pip3] torchaudio-augmentations==0.2.4
+[pip3] torcheval==0.0.7
+[pip3] torchmetrics==1.2.1
+[pip3] torchsummary==1.5.1
+[pip3] torchvision==0.16.1+cu118
+[conda] blas                      1.0                         mkl
+[conda] cudatoolkit               11.3.1               h59b6b97_2
+[conda] mkl                       2021.4.0                 pypi_0    pypi
+[conda] mkl-service               2.3.0            py38hb782905_0
+[conda] mkl_fft                   1.2.0            py38h45dec08_0
+[conda] mkl_random                1.1.1            py38h47e9c7a_0
+[conda] numpy                     1.24.4                   pypi_0    pypi
+[conda] numpydoc                  1.1.0              pyhd3eb1b0_1
+[conda] pytorch-lightning         2.2.4                    pypi_0    pypi
+[conda] pytorch-mutex             1.0                        cuda    pytorch
+[conda] torch                     2.3.0+cu121              pypi_0    pypi
+[conda] torch-fidelity            0.3.0                    pypi_0    pypi
+[conda] torchaudio                2.3.0+cu121              pypi_0    pypi
+[conda] torchinfo                 1.8.0                    pypi_0    pypi
+[conda] torchmetrics              0.11.4                   pypi_0    pypi
+[conda] torchnet                  0.0.4                    pypi_0    pypi
+[conda] torchsummary              1.5.1                    pypi_0    pypi
+[conda] torchvision               0.18.0+cu121             pypi_0    pypi
+[conda] torchviz                  0.0.2                    pypi_0    pypi
+[pip3] torcheval==0.0.7
+[pip3] torchmetrics==1.2.1
+[pip3] torchsummary==1.5.1
+[pip3] torchvision==0.16.1+cu118
