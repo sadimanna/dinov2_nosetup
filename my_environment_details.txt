@@ -50,6 +50,10 @@ Versions of relevant libraries:
 [pip3] torchmetrics==1.2.1
 [pip3] torchsummary==1.5.1
 [pip3] torchvision==0.16.1+cu118
+[pip3] torcheval==0.0.7
+[pip3] torchmetrics==1.2.1
+[pip3] torchsummary==1.5.1
+[pip3] torchvision==0.16.1+cu118
 [conda] blas                      1.0                         mkl
 [conda] cudatoolkit               11.3.1               h59b6b97_2
 [conda] mkl                       2021.4.0                 pypi_0    pypi
@@ -69,7 +73,3 @@ Versions of relevant libraries:
 [conda] torchsummary              1.5.1                    pypi_0    pypi
 [conda] torchvision               0.18.0+cu121             pypi_0    pypi
 [conda] torchviz                  0.0.2                    pypi_0    pypi
-[pip3] torcheval==0.0.7
-[pip3] torchmetrics==1.2.1
-[pip3] torchsummary==1.5.1
-[pip3] torchvision==0.16.1+cu118
