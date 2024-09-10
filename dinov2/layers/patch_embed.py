@@ -10,6 +10,7 @@
 from typing import Callable, Optional, Tuple, Union
 
 from torch import Tensor
+import torch
 import torch.nn as nn
 
 
@@ -71,8 +72,9 @@ class PatchEmbed(nn.Module):
 
         assert H % patch_H == 0, f"Input image height {H} is not a multiple of patch height {patch_H}"
         assert W % patch_W == 0, f"Input image width {W} is not a multiple of patch width: {patch_W}"
-
-        x = self.proj(x)  # B C H W
+        # print(x.dtype, self.proj.weight.dtype)
+        # exit()
+        x = self.proj(x) #.to(dtype=torch.float16)  # B C H W
         H, W = x.size(2), x.size(3)
         x = x.flatten(2).transpose(1, 2)  # B HW C
         x = self.norm(x)

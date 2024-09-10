@@ -50,7 +50,7 @@ For python-based LazyConfig, use "path.key=value".
 def main(args):
     cfg = setup(args)
     dataset_str = cfg.train.dataset_path
-    dataset_str = dataset_str.replace('=D:', '=D;')
+    dataset_str = dataset_str.replace('=C:', '=C;')
     # print(dataset_str)
     tokens = dataset_str.split(":")
     for i in range(len(tokens)):

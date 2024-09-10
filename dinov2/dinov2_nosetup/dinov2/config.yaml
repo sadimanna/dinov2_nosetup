@@ -59,15 +59,15 @@ ibot:
   head_nlayers: 3
   head_hidden_dim: 2048
 train:
-  batch_size_per_gpu: 128
-  dataset_path: ImageNet:split=TRAIN
-  output_dir: .
+  batch_size_per_gpu: 64
+  dataset_path: ImageNet:split=TRAIN:root=C:\Users\ISI_UTS\Siladittya\iclr2023\inexpts\datasets\ILSVRC\Data\CLS-LOC:extra=C:\Users\ISI_UTS\Siladittya\iclr2023\inexpts\datasets\ILSVRC\Data\CLS-LOC
+  output_dir: C:\Users\ISI_UTS\Siladittya\iclr2023\inexpts\dinov2_nosetup\dinov2\dinov2_nosetup\dinov2
   saveckp_freq: 20
   seed: 0
   num_workers: 0
   OFFICIAL_EPOCH_LENGTH: 1250
   cache_dataset: true
-  centering: "centering" # or "sinkhorn_knopp"
+  centering: centering
 student:
   arch: vit_small
   patch_size: 16
@@ -75,8 +75,8 @@ student:
   layerscale: 1.0e-05
   drop_path_uniform: true
   pretrained_weights: ''
-  ffn_layer: "mlp"
-  block_chunks: 0
+  ffn_layer: mlp
+  block_chunks: 4
   qkv_bias: true
   proj_bias: true
   ffn_bias: true
@@ -93,8 +93,8 @@ optim:
   epochs: 100
   weight_decay: 0.04
   weight_decay_end: 0.4
-  base_lr: 0.004  # learning rate for a batch size of 1024
-  lr: 0.  # will be set after applying scaling rule
+  base_lr: 0.004
+  lr: 0.001
   warmup_epochs: 10
   min_lr: 1.0e-06
   clip_grad: 3.0

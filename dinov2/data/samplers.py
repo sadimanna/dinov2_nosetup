@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from torch.utils.data.sampler import Sampler
 
-import dinov2.distributed as distributed
+import distributed as distributed
 
 
 class EpochSampler(Sampler):

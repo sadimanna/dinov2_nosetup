@@ -42,7 +42,12 @@ def _make_sample_transform(image_transform: Optional[Callable] = None, target_tr
 
 
 def _parse_dataset_str(dataset_str: str):
+    # dataset_str = cfg.train.dataset_path
+    dataset_str = dataset_str.replace('=C:', '=C;')
+    # print(dataset_str)
     tokens = dataset_str.split(":")
+    for i in range(len(tokens)):
+        tokens[i] = tokens[i].replace(';',':')
 
     name = tokens[0]
     kwargs = {}

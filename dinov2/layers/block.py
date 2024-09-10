@@ -27,7 +27,24 @@ logger = logging.getLogger("dinov2")
 XFORMERS_ENABLED = os.environ.get("XFORMERS_DISABLED") is None
 try:
     if XFORMERS_ENABLED:
-        from xformers.ops import fmha, scaled_index_add, index_select_cat
+        from xformers.ops import fmha, scaled_index_add as _scaled_index_add, index_select_cat as _index_select_cat
+
+        def scaled_index_add(input, index, source, scaling, alpha):
+            is_proper_embed_dim = input.shape[-1] % 256 == 0
+            is_float16 = input.dtype == torch.half
+            if is_proper_embed_dim and is_float16:
+                return _scaled_index_add(input, index, source, scaling, alpha)
+            else:
+                return torch.index_add(input, dim=0, source=scaling * source, index=index, alpha=alpha)
+
+
+        def index_select_cat(sources, indices):
+            is_proper_embed_dim = all(s.shape[-1] % 256 == 0 for s in sources)
+            is_float16 = all(s.dtype == torch.half for s in sources)
+            if is_proper_embed_dim and is_float16:
+                return _index_select_cat(sources, indices)
+            else:
+                return torch.cat([s[i.long()].flatten() for s, i in zip(sources, indices)], dim=0)
 
         XFORMERS_AVAILABLE = True
         warnings.warn("xFormers is available (Block)")
@@ -175,7 +192,7 @@ def get_attn_bias_and_cat(x_list, branges=None):
         attn_bias = fmha.BlockDiagonalMask.from_seqlens(seqlens)
         attn_bias._batch_sizes = batch_sizes
         attn_bias_cache[all_shapes] = attn_bias
-
+    
     if branges is not None:
         cat_tensors = index_select_cat([x.flatten(1) for x in x_list], branges).view(1, -1, x_list[0].shape[-1])
     else:

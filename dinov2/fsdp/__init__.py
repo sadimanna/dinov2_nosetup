@@ -42,6 +42,8 @@ def get_fsdp_wrapper(model_cfg, modules_to_wrap=set()):
 
     local_rank = distributed.get_local_rank()
 
+    # torch.cuda.set_device(local_rank)
+
     fsdp_wrapper = partial(
         FSDP,
         sharding_strategy=sharding_strategy_config,

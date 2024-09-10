@@ -20,6 +20,8 @@ from dino_logging import MetricLogger
 from utils.config import setup
 from utils.utils import CosineScheduler
 
+import torch.multiprocessing as mp
+
 from train.ssl_meta_arch import SSLMetaArch
 
 
@@ -129,9 +131,10 @@ def do_test(cfg, model, iteration):
 
 def do_train(cfg, model, resume=False):
     model.train()
-    inputs_dtype = torch.half
+    inputs_dtype = torch.float16
     fp16_scaler = model.fp16_scaler  # for mixed precision training
-
+    # print(fp16_scaler)
+    # exit()
     # setup optimizer
 
     optimizer = build_optimizer(cfg, model.get_params_groups())
@@ -194,8 +197,8 @@ def do_train(cfg, model, resume=False):
         transform=data_transform,
         target_transform=lambda _: (),
     )
-    sampler_type = SamplerType.INFINITE
-    # sampler_type = SamplerType.SHARDED_INFINITE
+    # sampler_type = SamplerType.INFINITE
+    sampler_type = SamplerType.SHARDED_INFINITE
     data_loader = make_data_loader(
         dataset=dataset,
         batch_size=cfg.train.batch_size_per_gpu,
@@ -216,7 +219,7 @@ def do_train(cfg, model, resume=False):
     metrics_file = os.path.join(cfg.train.output_dir, "training_metrics.json")
     metric_logger = MetricLogger(delimiter="  ", output_file=metrics_file)
     header = "Training"
-
+    # print(x.dtype)
     for data in metric_logger.log_every(
         data_loader,
         10,
@@ -288,7 +291,7 @@ def do_train(cfg, model, resume=False):
         periodic_checkpointer.step(iteration)
 
         iteration = iteration + 1
-    metric_logger.synchronize_between_processes()
+    # metric_logger.synchronize_between_processes()
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
 
@@ -296,7 +299,7 @@ def main(args):
     cfg = setup(args)
 
     model = SSLMetaArch(cfg).to(torch.device("cuda"))
-    # model.prepare_for_distributed_training()
+    model.prepare_for_distributed_training()
 
     logger.info("Model:\n{}".format(model))
     if args.eval_only:
@@ -307,11 +310,12 @@ def main(args):
             + 1
         )
         return do_test(cfg, model, f"manual_{iteration}")
-    print(args.no_resume)
+    # print(args.no_resume)
     # exit()
     do_train(cfg, model, resume=False) #not True) #args.no_resume)
 
 
 if __name__ == "__main__":
     args = get_args_parser(add_help=True).parse_args()
+    # mp.spawn(main, nprocs=1, args=args)
     main(args)
