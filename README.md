@@ -20,7 +20,34 @@ This may cause issue with model saving. But, that has been dealt in another work
 
 [3] Another change is following a pull request in the original DINOv2 repository itself. Please see the following links https://github.com/facebookresearch/dinov2/issues/160 and https://github.com/facebookresearch/dinov2/issues/160
 
+[4] Added `json2txt.py` and `prepare_data.py` for "Data Preparation" mentioned in a section below. `json2txt.py` converts `labels.json` (can be obtained from https://huggingface.co/datasets/ILSVRC/imagenet-1k/blob/main/classes.py) to `labels.txt`. After that, `prepare_data.py` generates the other `<EXTRA>/*` files.
 
+The following code snippet may not be required depending on the file path. The following was added to deal with `C:` or in the file path as the dataset was located in a different drive.
+```
+dataset_str = dataset_str.replace('=C:', '=C;')
+for i in range(len(tokens)):
+    tokens[i] = tokens[i].replace(';',':')
+```
+
+[5] Another change in `dinov2.dinov2.data.datasets.image_net.py` to deal with multiple comma separated names for the same class in the `labels.txt`
+
+```
+with open(labels_full_path, "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        class_id, class_name = row
+        labels.append((class_id, class_name))
+```
+
+changed to 
+
+```
+with open(labels_full_path, "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        class_id, class_name = row[:2]
+        labels.append((class_id, class_name))
+```
 
 :new: [2023-10-26] *Added DINOv2 backbones with registers, following [Vision Transformers Need Registers](https://arxiv.org/abs/2309.16588).*
 
