@@ -2,7 +2,7 @@
 
 [1] Change the backend to `gloo` from `nccl` in the `enable` method in `dinov2.dinov2.distributed.__init__.py`. Change `torch.distributed.init_process_group(backend='nccl')` to `torch.distributed.init_process_group(backend='gloo')`
 
-[2] The following change need to be made to PyTorch source file as a workaround for using the Gloo backend, otherwise the user may face error with the `all_gather_with_tensor' method which is not supported for Gloo backend.
+[2] The following change needs to be made to the PyTorch source file as a workaround for using the Gloo backend, otherwise, the user may face an error with the `all_gather_with_tensor` method which is not supported for Gloo backend.
 
 https://github.com/pytorch/pytorch/issues/74041
 
