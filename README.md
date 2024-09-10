@@ -3,11 +3,24 @@
 [1] Change the backend to `gloo` from `nccl` in the `enable` method in `dinov2.dinov2.distributed.__init__.py`. Change `torch.distributed.init_process_group(backend='nccl')` to `torch.distributed.init_process_group(backend='gloo')`
 
 [2] The following change need to be made to PyTorch source file as a workaround for using the Gloo backend, otherwise the user may face error with the `all_gather_with_tensor' method which is not supported for Gloo backend.
+
 https://github.com/pytorch/pytorch/issues/74041
 
-[3] Another change is following a pull request in the original DINOv2 repository itself. Please see the following links
-https://github.com/facebookresearch/dinov2/issues/160
-https://github.com/facebookresearch/dinov2/issues/160
+Specifically, replace
+
+`work = group._allgather_base(output_tensor, input_tensor)` in `all_gather_into_tensor` method in `torch.distributed.distributed_c10d.py` with
+
+```
+if group._get_backend_name() == Backend.GLOO:
+    return all_gather([output_tensor], input_tensor, group=group)
+else:
+    work = group._allgather_base(output_tensor, input_tensor)
+```
+This may cause issue with model saving. But, that has been dealt in another workaround in a linked issue in the above-mentioned link.
+
+[3] Another change is following a pull request in the original DINOv2 repository itself. Please see the following links https://github.com/facebookresearch/dinov2/issues/160 and https://github.com/facebookresearch/dinov2/issues/160
+
+
 
 :new: [2023-10-26] *Added DINOv2 backbones with registers, following [Vision Transformers Need Registers](https://arxiv.org/abs/2309.16588).*
 
