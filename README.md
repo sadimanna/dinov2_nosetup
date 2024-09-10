@@ -22,7 +22,7 @@ This may cause issue with model saving. But, that has been dealt in another work
 
 [4] Added `json2txt.py` and `prepare_data.py` for "Data Preparation" mentioned in a section below. `json2txt.py` converts `labels.json` (can be obtained from https://huggingface.co/datasets/ILSVRC/imagenet-1k/blob/main/classes.py) to `labels.txt`. After that, `prepare_data.py` generates the other `<EXTRA>/*` files.
 
-The following code snippet may not be required depending on the file path. The following was added to deal with `C:` or in the file path as the dataset was located in a different drive.
+The following code snippet may not be required depending on the file path. The following was added to deal with `C:` in the file path as the dataset was located in a different drive.
 ```
 dataset_str = dataset_str.replace('=C:', '=C;')
 for i in range(len(tokens)):
