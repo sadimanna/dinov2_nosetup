@@ -131,11 +131,8 @@ def do_test(cfg, model, iteration):
 
 def do_train(cfg, model, resume=False):
     model.train()
-    inputs_dtype = torch.float16
+    inputs_dtype = torch.half
     fp16_scaler = model.fp16_scaler  # for mixed precision training
-    # print(fp16_scaler)
-    # exit()
-    # setup optimizer
 
     optimizer = build_optimizer(cfg, model.get_params_groups())
     (
@@ -291,6 +288,7 @@ def do_train(cfg, model, resume=False):
         periodic_checkpointer.step(iteration)
 
         iteration = iteration + 1
+    # COMMENTED OUT FOR SINGLE GPU
     # metric_logger.synchronize_between_processes()
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
@@ -310,12 +308,10 @@ def main(args):
             + 1
         )
         return do_test(cfg, model, f"manual_{iteration}")
-    # print(args.no_resume)
-    # exit()
+
     do_train(cfg, model, resume=False) #not True) #args.no_resume)
 
 
 if __name__ == "__main__":
     args = get_args_parser(add_help=True).parse_args()
-    # mp.spawn(main, nprocs=1, args=args)
     main(args)
