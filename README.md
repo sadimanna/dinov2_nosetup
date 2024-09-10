@@ -1,3 +1,14 @@
+:new: [2024-09-10] *Made some changes for running DINOv2 on Windows.*
+
+[1] Change the backend to `gloo` from `nccl` in the `enable` method in `dinov2.dinov2.distributed.__init__.py`. Change `torch.distributed.init_process_group(backend='nccl')` to `torch.distributed.init_process_group(backend='gloo')`
+
+[2] The following change need to be made to PyTorch source file as a workaround for using the Gloo backend, otherwise the user may face error with the `all_gather_with_tensor' method which is not supported for Gloo backend.
+https://github.com/pytorch/pytorch/issues/74041
+
+[3] Another change is following a pull request in the original DINOv2 repository itself. Please see the following links
+https://github.com/facebookresearch/dinov2/issues/160
+https://github.com/facebookresearch/dinov2/issues/160
+
 :new: [2023-10-26] *Added DINOv2 backbones with registers, following [Vision Transformers Need Registers](https://arxiv.org/abs/2309.16588).*
 
 # DINOv2: Learning Robust Visual Features without Supervision
